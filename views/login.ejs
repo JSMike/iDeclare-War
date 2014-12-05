@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- views/index.ejs -->
+<html lang="en" ng-app='loginApp'>
+<head>
+  <title>CSC8540 - iDeclare - War</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/login.css">
+  <script type="text/javascript" src="/lib/angular/angular.min.js"></script>
+  <script type="text/javascript" src="/lib/angular-route/angular-route.min.js"></script>
+  <script type="text/javascript" src="/js/loginApp.js"></script>
+</head>
+<body ng-controller='loginController'>
+  <header class="row">
+    <div class="col-xs-12">
+      <a href="index.html"><img src="img/warlogo.png" class="img-responsive img-rounded center-block" alt="logoWAR"></a>
+    </div>
+  </header>
+  <!-- show messages that come back with auth -->
+  <% if (typeof message !== "undefined" && message.length > 0) { %>
+    <span ng-init='init("<%= message %>")'></span>
+    <% } %>
+
+  <div ng-view></div>
+
+</body>
+</html>

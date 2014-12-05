@@ -1,0 +1,155 @@
+.jumbotron {
+  padding: 0 0 30px 0;
+  border: 1px solid #e3e3e3;
+}
+
+.page-header {
+  margin: 0;
+}
+
+.user-profile {
+  min-height: 300px;
+  height: 30vh;
+}
+
+.chat-col {
+  height: 200px;
+  margin: 0 0 4px 0;
+}
+
+.chat-container {
+  padding-right: 0;
+}
+
+.chat-main {
+  height: 175px;
+  max-height: 175px;
+  overflow-y: scroll;
+}
+
+.chat-input {
+
+}
+
+.user-list-col {
+  height: 230px;
+  min-width: 126px;
+}
+
+.user-list-container {
+  padding-left: 0;
+}
+
+.user-list {
+  height: 175px;
+  max-height: 175px;
+  overflow-y: scroll;
+}
+
+.min-width {
+  min-width: 540px;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+li.user {
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  padding: 0;
+}
+
+h4 {
+  margin: 0;
+}
+
+body {
+  background-color: #384f29;
+}
+
+.white-text {
+  color: white;
+}
+
+ul.user-list li {
+  transition: all .3s ease;
+  cursor: pointer;
+}
+
+ul.user-list li:hover {
+  background: #999999;
+  transition: all .5s ease;
+}
+
+.alert {
+  padding: 5px 0;
+  margin: 0;
+}
+
+.right {
+  text-align: right;
+}
+
+.newlines {
+  white-space: pre;
+}
+
+#war {
+  width: 80%;
+  background: url('/img/Felt-Green.jpg');
+}
+
+.semi-transparent {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.semi-transparent:hover {
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.card {
+  height: 25vh;
+  min-height: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.warcard {
+  background-image: url(/img/red-back.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.player1card {
+  background-image: url(/img/red_joker.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.player2card {
+  background-image: url(/img/black_joker.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.war {
+  height: 35vh;
+  overflow: visible;
+}

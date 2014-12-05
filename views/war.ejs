@@ -1,0 +1,43 @@
+<div class="container jumbotron img-rounded">
+  <div class="page-header text-center">
+    <h1><span class="red">&diams;</span> &clubs; War <span class="red">&hearts;</span> &spades;</h1>
+  </div>
+  <div class="row war-main">
+    <!-- User Info -->
+    <div class="col-xs-5 col-xs-offset-1 war">
+      <div class="war">
+        <h4 class="text-center">{{war.player1.name}}</h4>
+        <div class="row">
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+          <div class="col-xs-3 player1card card"></div>
+        </div>
+        <div class="row">
+          <p ng-show="war.player1.count != null">Cards in hand: {{war.player1.count}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opponent Info -->
+    <div class="col-xs-5 war">
+      <div class="war">
+        <h4 class="text-center">{{war.player2.name}}</h4>
+        <div class="row">
+          <div class="col-xs-3 player2card card"></div>
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+          <div class="col-xs-3 card" ng-class="{warcard: war.isWar}"></div>
+        </div>
+        <div class="row">
+          <p ng-show="war.player2.count != null">Cards in hand: {{war.player2.count}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 pool well text-center" ng-show="war.pool > 2">
+      <p>Cards in pool: {{war.pool - 6}}</p>
+    </div>
+  </div>
+</div>

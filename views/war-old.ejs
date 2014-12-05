@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CSC8540 - iDeclare - WAR</title>
+    <!-- <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="./bower_components/bootstrap/dist/css/bootstrap.min.js"></script> -->
+    <script src="./contextmenu/jquery.contextmenu.js"></script>
+    <script src="./preload/jquery.preload.min.js"></script>
+    <link rel="stylesheet" href="./contextmenu/jquery.contextmenu.css">
+    <style type="text/css">
+      @import url(//fonts.googleapis.com/css?family=Ceviche+One);
+    </style>
+
+    <script>
+      //When the Page finishes loading
+      $(document).ready(function () {
+
+        // $(document).click(function(event) {
+        //     if(!$(event.target).closest('.user').length) {
+        //         $('.user').css('background: none;');
+        //     }
+        // })
+
+        //$('#userlist').on('click', '.user', function () {
+          //$(this).css('background: yellow;');
+          // $(document).click(function(e) {
+          //   if (!$(e.target).closest(this).length) {
+          //     $(this).css('background: none;');
+          //   }
+          // });
+        //});
+
+        //preload images
+        $.preload('/img/10_of_clubs.png',
+                  '/img/10_of_diamonds.png',
+                  '/img/10_of_hearts.png',
+                  '/img/10_of_spades.png',
+                  '/img/2_of_clubs.png',
+                  '/img/2_of_diamonds.png',
+                  '/img/2_of_hearts.png',
+                  '/img/2_of_spades.png',
+                  '/img/3_of_clubs.png',
+                  '/img/3_of_diamonds.png',
+                  '/img/3_of_hearts.png',
+                  '/img/3_of_spades.png',
+                  '/img/4_of_clubs.png',
+                  '/img/4_of_diamonds.png',
+                  '/img/4_of_hearts.png',
+                  '/img/4_of_spades.png',
+                  '/img/5_of_clubs.png',
+                  '/img/5_of_diamonds.png',
+                  '/img/5_of_hearts.png',
+                  '/img/5_of_spades.png',
+                  '/img/6_of_clubs.png',
+                  '/img/6_of_diamonds.png',
+                  '/img/6_of_hearts.png',
+                  '/img/6_of_spades.png',
+                  '/img/7_of_clubs.png',
+                  '/img/7_of_diamonds.png',
+                  '/img/7_of_hearts.png',
+                  '/img/7_of_spades.png',
+                  '/img/8_of_clubs.png',
+                  '/img/8_of_diamonds.png',
+                  '/img/8_of_hearts.png',
+                  '/img/8_of_spades.png',
+                  '/img/9_of_clubs.png',
+                  '/img/9_of_diamonds.png',
+                  '/img/9_of_hearts.png',
+                  '/img/9_of_spades.png',
+                  '/img/ace_of_clubs.png',
+                  '/img/ace_of_diamonds.png',
+                  '/img/ace_of_hearts.png',
+                  '/img/ace_of_spades.png',
+                  '/img/jack_of_clubs.png',
+                  '/img/jack_of_diamonds.png',
+                  '/img/jack_of_hearts.png',
+                  '/img/jack_of_spades.png',
+                  '/img/king_of_clubs.png',
+                  '/img/king_of_diamonds.png',
+                  '/img/king_of_hearts.png',
+                  '/img/king_of_spades.png',
+                  '/img/queen_of_clubs.png',
+                  '/img/queen_of_diamonds.png',
+                  '/img/queen_of_hearts.png',
+                  '/img/queen_of_spades.png',
+                  '/img/black_joker.png',
+                  '/img/red-back.png',
+                  '/img/Felt-Green.jpg',
+                  '/img/VillanovaWildcats.png'
+          );
+
+        //Connect to the server
+        var socket = io.connect("http://localhost");
+
+        //Handle chat messages from the server
+        socket.on('chat', function (data) {
+          $('#chat').append(data + '<br>');
+          $('#chat').scrollTop($('#chat')[0].scrollHeight);
+        });
+
+        //Handle userlist updates
+        socket.on('userlist', function (data) {
+          $("#userlist").html('<li id="usershead">Users Online:</li>');
+          for (var key in data) {
+             $('#userlist').append('<li id="' + data[key] +'" class="user">' + data[key] + '</li>');
+          }
+          $("#userlist .user").each(function () {
+            var id = $(this).text();
+
+            $(this).contextPopup({
+                items: [
+                  {label:'Whisper', action:function() { $('#input').val('/w ' + id + " ").focus(); } },
+                  {label:'Info', action:function() { socket.emit('info', id); } },
+                  null,
+                  {label:'Declare War!', action:function(data) {
+                      if (id === 'The Computer') {
+                        socket.emit('singlePlayer', 'war');
+                      } else {
+                        socket.emit('challenge', id + ' war');
+                      }
+                    }
+                  },
+                  {label:'Pickem & Pass', action:function(data) {
+                      if (id === 'The Computer') {
+                        socket.emit('singlePlayer', 'pass');
+                      } else {
+                        socket.emit('challenge', id + ' pass');
+                      }
+                    }
+                  },
+                  {label:'Pickem & Discard', action:function(data) {
+                      if (id === 'The Computer') {
+                        socket.emit('singlePlayer', 'discard');
+                      } else {
+                        socket.emit('challenge', id + ' discard');
+                      }
+                    }
+                  }
+                ]});
+
+          });
+        });
+
+        socket.on('pickem', function (data) {
+          $('.warcard').css("background-image", "none");
+
+          //Display This user's card and info
+          $('#player1Card').css("background-image", "url(/img/" + data.player.viewing.toLowerCase()  + ")").css("background-size", "contain").css("background-repeat", "no-repeat");
+          $('#player1Name').html(data.player.nickname);
+          $('#player1Count').html("Cards in hand: " + data.player.hand + "<br>" +
+              "Cards Picked: " + data.player.picked);
+          if ($('#keep').html() === "" && data.player.picked === 0) {
+            var img = new Image();
+            img.src = $('#player1Card').css('background-image').replace(/url\(|\)$/ig, "");
+
+            var cardh = $('#player1Card').height();
+            var cardw = $('#player1Card').width();
+            //ratio of card hight / width
+            if (cardh / cardw < 1.452) {
+              var newWidth = cardh / 1.452;
+              $("#keep").width(newWidth);
+              $("#pass").width(newWidth);
+            } else if (cardh / cardw > 1.452) {
+              var newHeight = (cardw * 1.452);
+              $("#pickemButtons").height(newHeight);
+            }
+
+            $(window).resize(function () {
+              var cardh = $('#player1Card').height();
+              var cardw = $('#player1Card').width();
+              //ratio of card hight / width
+              if (cardh / cardw < 1.452) {
+                var newWidth = cardh / 1.452;
+                $("#keep").width(newWidth);
+                $("#pass").width(newWidth);
+              } else if (cardh / cardw > 1.452) {
+                var newHeight = (cardw * 1.452);
+                $("#pickemButtons").height(newHeight);
+              }
+            });
+
+            var keep = $('<input id="keepButton" type="button" value="Keep" />');
+            $('#keep').append(keep);
+            $('#keep input').click(function () {
+              socket.emit('pickem', 'true');
+            });
+
+            var pass = $('<input id="passButton" type="button" value="Pass" />');
+            $('#pass').append(pass);
+            $('#pass input').click(function () {
+              socket.emit('pickem', 'false');
+            });
+          } else if (data.player.picked === 12) {
+            $('#keep input').unbind('click');
+            $('#pass input').unbind('click');
+
+            $('#keep input').click(function () {
+              socket.emit('pickem', 'true');
+              $('#pass').empty();
+              $('#keep').empty();
+            });
+            $('#pass input').click(function () {
+              socket.emit('pickem', 'false');
+              $('#keep').empty();
+              $('#pass').empty();
+            });
+          }
+
+          //Display Player 2 info only, and card back.
+          $('#player2Card').css("background-image", "url(/img/red-back.png)").css("background-size", "contain").css("background-repeat", "no-repeat");
+          $('#player2Name').html(data.opponent.nickname);
+          $('#player2Count').html("Cards in hand: " + data.opponent.hand + "<br>" +
+              "Cards Picked: " + data.opponent.picked);
+
+          $('#cardPool').css("background-image", "url(/img/red-back.png)").css("background-size", "contain").css("background-repeat", "no-repeat");
+          $('#cardPoolCount').html(data.deck + " Cards remaining.");
+          $('#cardPoolTitle').html('Deck');
+        });
+
+        //Handle war messages from server
+        socket.on('war', function (data) {
+          //if isWar, display cards on side of play cards
+          if (data.isWar === true) {
+            $('.warcard').css('background-image', 'url(/img/red-back.png)').css("background-size", "contain").css("background-repeat", "no-repeat");
+
+          } else {
+            //if not isWar, make sure war cards are cleared
+            $('.warcard').css("background-image", "none");
+          }
+
+          //Display Player 1 card and info
+          $('#player1Card').css("background-image", "url(/img/" + data.player1.card.toLowerCase()  + ")").css("background-size", "contain").css("background-repeat", "no-repeat");
+          $('#player1Name').html(data.player1.name);
+          $('#player1Count').html("Cards in hand: " + data.player1.count);
+
+          //Display Player 2 card and info
+          $('#player2Card').css("background-image", "url(/img/" + data.player2.card.toLowerCase()  + ")").css("background-size", "contain").css("background-repeat", "no-repeat");
+          $('#player2Name').html(data.player2.name);
+          $('#player2Count').html("Cards in hand: " + data.player2.count);
+
+          //If there's a pool, display with info, otherwise clear out the pool area.
+          if (data.pool > 0) {
+            $('#cardPool').css("background-image", "url(/img/red-back.png)").css("background-size", "contain").css("background-repeat", "no-repeat");
+            $('#cardPoolCount').html(data.pool + " Cards");
+            $('#cardPoolTitle').html('Card Pool');
+          } else {
+            $('#cardPool').css("background-image", "none");
+            $('#cardPoolCount').html(' ');
+            $('#cardPoolTitle').html(' ');
+          }
+        });
+
+        //Adds action listener to the #send button
+        $('#send').click(function (e) {
+          parseInput();
+        });
+
+        //Adds action listener to #input field
+        $('#input').keypress(function (key) {
+          //when enter is pressed
+          if(key.which == 13) {
+            parseInput();
+          }
+        });
+
+        /**
+         * parses input and sends appropriate message to the server.
+         **/
+        function parseInput() {
+          if ($('#input').val().indexOf('/nick ') === 0) {
+            socket.emit('nick', removeCommand($('#input').val()).trim());
+          } else if ($('#input').val().indexOf('/w ') === 0) {
+            socket.emit('whisper', removeCommand($('#input').val()).trim());
+          } else if (($('#input').val().indexOf('/em ') === 0) ||
+              ($('#input').val().indexOf('/me ') === 0) ||
+              ($('#input').val().indexOf('/emote ') === 0) ) {
+            socket.emit('emote', removeCommand($('#input').val()).trim());
+          } else if ($('#input').val().indexOf('/challenge ') === 0) {
+            var opponent = removeCommand($('#input').val()).trim();
+            if (opponent === 'The Computer') {
+              socket.emit('singlePlayer', opponent);
+            } else {
+              socket.emit('challenge', opponent);
+            }
+          } else if ($('#input').val().indexOf('/accept') === 0) {
+            socket.emit('accept', true);
+          } else if ($('#input').val().indexOf('/pickem ') === 0) {
+            socket.emit('pickem', removeCommand($('#input').val()).trim());
+          } else if ($('#input').val().indexOf('/reject') === 0) {
+            socket.emit('reject', true);
+          } else if ($('#input').val().indexOf('/cancel') === 0) {
+            socket.emit('cancel', true);
+          } else if (($('#input').val().indexOf('/info') === 0) ||
+              ($('#input').val().indexOf('/stats') === 0)) {
+            socket.emit('info', removeCommand($('#input').val()).trim());
+          } else if (($('#input').val().indexOf('/help') === 0) ||
+              ($('#input').val().indexOf('/?') === 0)) {
+            socket.emit('help', true);
+          } else {
+            socket.emit('chat', $('#input').val());
+          }
+          $('#input').val('');
+        }
+
+        function removeCommand(str) {
+          str = str.match(/\S+/g);
+          str.shift();
+          str = str.join(' ');
+          return str;
+        }
+
+        $('#chat').on('click', '.accept', function () {
+          socket.emit('accept', true);
+        });
+
+        $('#chat').on('click', '.reject', function () {
+          socket.emit('reject', true);
+        });
+
+        $('#chat').on('click', '.cancel', function () {
+          socket.emit('cancel', true);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="main" class="table">
+      <header id="header" class="head">
+        <div id="headercell" class="cell">
+          <div id="headertable" class="table">
+            <div id="headerrow" class="row">
+              <div id="hl" class="cell center"></div>
+              <div id="hc" class="cell center Ceviche">iDeclare War!</div>
+              <div id="hr" class="cell center">CSC8540<br>Fall 2014</div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div id="center" class="row">
+        <div id="containercell" class="cell">
+          <div id="midtable" class="table">
+            <div class="row">
+              <div id="war" class="cell">
+                <div id="test" class="table">
+                  <div id="wartop" class="row">
+                    <div class="cell">
+                      <div class="table">
+                        <div class="row">
+                          <div class="cell">
+                            <div class="table">
+                              <div class="row">
+                                <div id="wartl" class="cell center">
+                                  <span class="red">&diams;</span> &clubs;
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="cell">
+                            <div class="table">
+                              <div class="row">
+                                <div id="wartc" class="cell center">
+                                  <!--Timer goes here-->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="cell">
+                            <div class="table">
+                              <div class="row">
+                                <div id="wartr" class="cell center">
+                                  <span class="red">&hearts;</span> &spades;
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="warmid" class="row">
+                    <div class="cell">
+                      <div class="table">
+                        <div class="row">
+                          <div id="player" class="cell">
+                            <div class="table">
+                              <div class="row">
+                                <div class="cell cardpad1"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad2"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad2"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad1"></div>
+                                <div id="player1Card" class="cell card">
+                                  <div id="pickemButtons" class="table">
+                                    <div class="row pickemButton middle">
+                                      <div class="cell middle">
+                                        <div id="keep" class="keep middle center" ></div>
+                                      </div>
+                                    </div>
+                                    <div class="row pickemButton middle">
+                                      <div class="cell middle">
+                                        <div id="pass" class="pass middle center"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="cell cardpad2"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="cell">
+                            <div class="table">
+                              <div class="row">
+                                <div class="cell cardpad2"></div>
+                                <div id="player2Card" class="cell card">
+                                  <div class="table">
+                                    <div class="row">
+                                      <div class="cell keep"></div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="cell pass"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="cell cardpad1"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad2"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad2"></div>
+                                <div class="cell warcard card"></div>
+                                <div class="cell cardpad1"></div>
+                              </div>
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="warbot" class="row">
+                    <div class="cell">
+                      <div class="table">
+                        <div class="row">
+                          <div class="cell center">
+                            <div class="table">
+                              <div class="row">
+                                <div id="player1Name" class="cell white middle"></div>
+                              </div>
+                              <div class="row">
+                                <div id="player1Count" class="cell white middle"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="cell center">
+                            <div class="table">
+                              <div class="row">
+                                <div id="cardPoolTitle" class="cell white middle"></div>
+                              </div>
+                              <div class="row">
+                                <div class="cell">
+                                  <div class="table">
+                                    <div class="row">
+                                      <div class="cell"></div>
+                                      <div id="cardPool" class="cell white middle"></div>
+                                      <div class="cell"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div id="cardPoolCount" class="cell white middle"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="cell center">
+                            <div class="table">
+                              <div class="row">
+                                <div id="player2Name" class="cell white middle"></div>
+                              </div>
+                              <div class="row">
+                                <div id="player2Count" class="cell white middle"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="online" class="cell">
+                <ul id="userlist">
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="chat-container" class="row">
+        <div id="chat"></div>
+      </div>
+      <div id="inputrow" class="row">
+        <div class="cell">
+          <div class="table">
+            <div class="row">
+              <div id="input-container" class="cell">
+                <input id="input" type="text" size="1000" />
+              </div>
+              <div id="send-container" class="cell">
+                <input id="send" type="button" value="Send" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

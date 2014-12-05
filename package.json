@@ -1,0 +1,52 @@
+{
+  "name": "iDeclare-War",
+  "version": "0.6.0",
+  "description": "War card game designed for Villanova CSC-8540 Fall 2014",
+  "main": "server.js",
+  "private": "true",
+  "repository": "",
+  "author": "Michael Cebrian <michael.cebrian@gmail.com>",
+  "contributors": [
+    {
+      "name": "Evin Brown",
+      "email": "ebrown122@gmail.com"
+    },
+    {
+      "name": "Sushmitha Kari",
+      "email": "sushmithakari@gmail.com"
+    },
+    {
+      "name": "Ranjana Thapaliya",
+      "email": "ranjana.thapaliya@gmail.com"
+    },
+    {
+      "name": "SaiSushmithaReddy Vinta",
+      "email": "svinta@villanova.edu"
+    }
+  ],
+  "dependencies": {
+    "async": "^0.9.0",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.9.2",
+    "connect": "^2.27.4",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^0.4.1",
+    "cookie-parser": "^1.3.3",
+    "ejs": "^1.0.0",
+    "express": "^4.10.2",
+    "express-session": "^1.9.1",
+    "method-override": "^2.3.0",
+    "mongoose": "^3.8.19",
+    "morgan": "^1.5.0",
+    "passport": "^0.2.1",
+    "passport-facebook": "^1.0.3",
+    "passport-google-oauth": "^0.1.5",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.2",
+    "passport.socketio": "^3.4.1",
+    "serve-favicon": "^2.1.7",
+    "session.socket.io": "^0.1.6",
+    "socket.io": "^1.2.0",
+    "validator": "^3.22.1"
+  }
+}

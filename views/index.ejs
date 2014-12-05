@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- views/index.ejs -->
+<html lang="en" ng-app='warApp'>
+<head>
+  <title>CSC8540 - iDeclare - War</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/lib/angular/angular.min.js"></script>
+  <script type="text/javascript" src="/lib/angular-route/angular-route.min.js"></script>
+  <script type="text/javascript" src="/lib/angularjs-scroll-glue-Luegg/src/scrollglue.js"></script>
+  <script type="text/javascript" src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="/lib/angular-ui/build/angular-ui.min.js"></script>
+  <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="/lib/angular-dialog-service/dist/dialogs.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery.preload/jquery.preload.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/js/warApp.js"></script>
+  <script type="text/javascript" src="/js/cardsize.js"></script>
+  <script type="text/javascript" src="/js/preloadlist.js"></script>
+</head>
+<body ng-controller='warController' class="min-width">
+  <navbar></navbar>
+
+
+  <!-- show messages that come back with auth -->
+  <% if (typeof message !== "undefined" && message.length > 0) { %>
+  <span ng-init='init("<%= message %>")'></span>
+  <% } %>
+
+  <div ng-view></div>
+
+  <!-- User List -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-3 user-list-col user-list-container">
+        <div class="well user-list-col">
+          <h4>Users Online:</h4>
+          <ul class="user-list">
+            <li ng-repeat="username in userlist track by $index" ng-class="{ 'alert alert-success': $index == selectedIndex}" ng-click="userSelect($index)">{{username}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-9 chat-col chat-container">
+        <div class="well chat-col">
+          <div class="chat-main" scroll-glue="glued">
+            <p class="newlines" ng-repeat="msg in chat track by $index" ><span ng-bind-html="msg"></span></p>
+          </div>
+        </div>
+        <form ng-submit="sendchat()">
+          <input ng-model="chatinput" class="col-xs-8 col-sm-8 col-md-9 chat-input" type="text">
+          <input type="submit" class="col-xs-2 col-sm-2 col-md-1" value="Send">
+        </form>
+          <div class="col-xs-2 white-text right">Auto-Scroll: <input type="checkbox" ng-model="glued"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

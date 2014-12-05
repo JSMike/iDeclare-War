@@ -1,0 +1,42 @@
+<div class="container jumbotron img-rounded">
+  <div class="page-header text-center">
+    <h1><span class="fa fa-gear"></span> Profile</h1>
+  </div>
+  <div class="row user-profile">
+    <!-- User Info -->
+    <div ng-class="{'col-xs-5 user-profile col-xs-offset-1': opponent != null, 'col-xs-8 user-profile col-xs-offset-2': opponent == null}">
+      <div class="well user-profile">
+        <h3><span class="fa fa-user"></span> {{user.username}}'s Profile</h3>
+        <p>
+          <strong>Wins</strong>: {{ user.wins }}<br>
+          <strong>Losses</strong>: {{ user.losses }}
+        </p>
+        <p>
+          <input ng-model="user.username" ng-show="changing.status" ng-trim="false"><span ng-class="{ 'fa fa-thumbs-down alert alert-danger': !useravail.status,
+'fa fa-thumbs-up alert alert-success': useravail.status }" ng-show="changing.status"></span>
+        </p>
+        <button type="button" class="btn btn-default" ng-show="!changing.status" ng-click="changeToggle()">Change Username </button>
+        <button type="button" class="btn btn-success" ng-show="changing.status" ng-click="changeToggle(true)">Accept</button>
+        <button type="button" class="btn btn-danger" ng-show="changing.status" ng-click="changeToggle(false)">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Opponent Info -->
+    <div class="col-xs-5 user-profile" ng-show="opponent != null">
+      <div class="well user-profile">
+        <h3><span class="fa fa-user"></span> {{ opponent.username }}'s Profile</h3>
+          <p>
+            <strong>Wins</strong>: {{ opponent.wins }}<br>
+            <strong>Losses</strong>: {{ opponent.losses }}
+          </p>
+          <h4>Challenge to:</h4><br>
+          <p>
+            <button class="btn" type="button" href="/war" ng-click="challenge('war', opponent.username)">War</button>
+            <button class="btn btn-primary" href="/pickem" type="button" ng-click="challenge('pass', opponent.username)">Pickem & Pass</button>
+            <button class="btn btn-info" type="button" href="/pickem" ng-click="challenge('discard', opponent.username)">Pickem & Discard</button>
+          </p>
+      </div>
+    </div>
+
+  </div>
+</div>

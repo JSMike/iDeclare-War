@@ -1,7 +1,7 @@
 {
   "name": "iDeclare-War",
   "version": "0.6.0",
-  "description": "War card game",
+  "description": "War card game designed for Villanova CSC-8540 Fall 2014",
   "main": "server.js",
   "moduleType": [
     "node"

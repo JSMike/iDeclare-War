@@ -1,5 +1,5 @@
 {
-  "name": "war",
+  "name": "iDeclare-War",
   "version": "0.6.0",
   "description": "War card game",
   "main": "server.js",

@@ -1,6 +1,6 @@
 iDeclare-War
 ============
-
+<pre>
 Full MEAN stack Node.js application that shows examples of:
 Express server:
   -Routing
@@ -18,3 +18,4 @@ MongoDB:
 This combination creates a social environment for users to play games.
 
 Card images from: http://opengameart.org/content/playing-cards-vector-png
+</pre>

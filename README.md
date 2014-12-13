@@ -18,4 +18,13 @@ MongoDB:
 This combination creates a social environment for users to play games.
 
 Card images from: http://opengameart.org/content/playing-cards-vector-png
+
+Requires: Node.js, npm, bower, and GCC or MSVS to compile libraries
+
+To install:
+npm install
+bower install
+
+To run:
+node server.js
 </pre>

@@ -19,7 +19,7 @@ This combination creates a social environment for users to play games.
 
 Card images from: http://opengameart.org/content/playing-cards-vector-png
 
-Requires: Node.js, npm, bower, and GCC in Linux or MSVS 2013 in Windows
+Requires: Node.js, npm, bower, Mongo DB, and GCC in Linux or MSVS 2013 in Windows
 
 To install:
 npm install

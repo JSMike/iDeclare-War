@@ -19,7 +19,7 @@ This combination creates a social environment for users to play games.
 
 Card images from: http://opengameart.org/content/playing-cards-vector-png
 
-Requires: Node.js, npm, bower, and GCC or MSVS to compile libraries
+Requires: Node.js, npm, bower, and GCC in Linux or MSVS in windows to compile BSON libraries
 
 To install:
 npm install

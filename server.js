@@ -47,7 +47,7 @@ var sessionHandler = session({
   cookie: {}
 });
 
-app.use(subdomain('war', app));
+//app.use(subdomain('war', app));
 app.use(morgan('dev'));
 app.use(cookieParser(sessionInfo.secret));
 app.use(bodyParser());

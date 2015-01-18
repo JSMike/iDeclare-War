@@ -16,6 +16,8 @@ var passportSocketIo = require('passport.socketio');
 var sessionSocketIo = require('session.socket.io');
 var favicon = require('serve-favicon');
 var server = require('http').createServer(app);
+var subdomain = require('express-subdomain');
+
 
 // Mongoose Settings
 var dbPort = 27017;
@@ -45,6 +47,7 @@ var sessionHandler = session({
   cookie: {}
 });
 
+app.use(subdomain('war'));
 app.use(morgan('dev'));
 app.use(cookieParser(sessionInfo.secret));
 app.use(bodyParser());

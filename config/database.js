@@ -5,3 +5,4 @@ var mongoInfo = function (host, port) {
 };
 
 module.exports = mongoInfo;
+//test

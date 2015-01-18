@@ -8,7 +8,7 @@
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 80;
-var host = process.env.IP || 'mcebrian.com';
+var host = process.env.IP || 'localhost';
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -47,7 +47,7 @@ var sessionHandler = session({
   cookie: {}
 });
 
-app.use(subdomain('war', app));
+//app.use(subdomain('war', app));
 app.use(morgan('dev'));
 app.use(cookieParser(sessionInfo.secret));
 app.use(bodyParser());
@@ -86,6 +86,6 @@ io.use(passportSocketIo.authorize({
 require('./war/WarServer')(io);
 
 // Everything is set up now, start listening for connections
-server.listen(port, host);
+server.listen(port, 'mcebrian.com');
 
 console.log(new Date().toString(),'\nServer listening on port: ' + port);

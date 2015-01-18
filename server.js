@@ -86,6 +86,6 @@ io.use(passportSocketIo.authorize({
 require('./war/WarServer')(io);
 
 // Everything is set up now, start listening for connections
-server.listen(port);
+server.listen(port, host);
 
 console.log(new Date().toString(),'\nServer listening on port: ' + port);

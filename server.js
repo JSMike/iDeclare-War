@@ -7,8 +7,8 @@
 
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3000;
-var host = process.env.IP || 'localhost';
+var port = process.env.PORT || 80;
+var host = process.env.IP || 'mcebrian.com';
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -47,7 +47,7 @@ var sessionHandler = session({
   cookie: {}
 });
 
-//app.use(subdomain('war', app));
+app.use(subdomain('war', app));
 app.use(morgan('dev'));
 app.use(cookieParser(sessionInfo.secret));
 app.use(bodyParser());
